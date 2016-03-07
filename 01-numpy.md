@@ -49,7 +49,7 @@ array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
 ~~~
 
 The expression `numpy.loadtxt(...)` is a [function call](reference.html#function-call)
-that asks Python to run the function `loadtxt` that belongs to the `numpy` library.
+that asks Python to run the [function](reference.html#function) `loadtxt` that belongs to the `numpy` library.
 This [dotted notation](reference.html#dotted-notation) is used everywhere in Python
 to refer to the parts of things as `thing.component`.
 
@@ -158,7 +158,7 @@ This is different from the way spreadsheets work.
 
 > ## Who's who in the memory {.callout}
 >
->You can use the `whos` command at any time to see what variables you have created and what modules you have loaded into the computers memory. As this is an IPython command, it will only work if you are in an IPython terminal or the Jupyter Notebook. 
+>You can use the `whos` command at any time to see what variables you have created and what modules you have loaded into the computers memory. As this is an IPython command, it will only work if you are in an IPython terminal or the Jupyter Notebook.
 >
 >~~~ {.python}
 >whos
@@ -381,36 +381,47 @@ tripledata:
 ~~~
 
 Often, we want to do more than add, subtract, multiply, and divide values of data.
-Arrays also know how to do more complex operations on their values.
+NumPy knows how to do more complex operations on arrays.
 If we want to find the average inflammation for all patients on all days,
 for example,
-we can just ask the array for its mean value
+we can ask NumPy to compute `data`'s mean value
 
 ~~~ {.python}
-print(data.mean())
+print(numpy.mean(data))
 ~~~
 ~~~ {.output}
 6.14875
 ~~~
 
-`mean` is a [method](reference.html#method) of the array,
-i.e.,
-a function that belongs to it
-in the same way that the member `shape` does.
-If variables are nouns, methods are verbs:
-they are what the thing in question knows how to do.
-We need empty parentheses for `data.mean()`,
-even when we're not passing in any parameters,
-to tell Python to go and do something for us. `data.shape` doesn't
-need `()` because it is just a description but `data.mean()` requires the `()`
-because it is an action.
+`mean` is a [function](reference.html#function) that takes
+an array as an [argument](reference.html#argument).
+If variables are nouns, functions are verbs:
+they do things with variables.
 
-NumPy arrays have lots of useful methods:
+> ## Not all functions have input {.callout}
+>
+> Generally, a function uses inputs to produce outputs.
+> However, some functions produce outputs without
+> needing any input. For example, generating a random number
+> between 0 and 1 doesn't require any input.
+>
+> ~~~ {.python}
+> print(numpy.random.random())
+> ~~~
+> ~~~ {.output}
+> 0.1307966624414867
+> ~~~
+>
+> For functions that don't take in any arguments,
+> we still need parentheses (`()`)
+> to tell Python to go and do something for us.
+
+NumPy has lots of useful functions that take an array as input.
 
 ~~~ {.python}
-print('maximum inflammation:', data.max())
-print('minimum inflammation:', data.min())
-print('standard deviation:', data.std())
+print('maximum inflammation:', numpy.max(data))
+print('minimum inflammation:', numpy.min(data))
+print('standard deviation:', numpy.std(data))
 ~~~
 ~~~ {.output}
 maximum inflammation: 20.0
@@ -435,10 +446,10 @@ maximum inflammation for patient 0: 18.0
 ~~~
 
 We don't actually need to store the row in a variable of its own.
-Instead, we can combine the selection and the method call:
+Instead, we can combine the selection and the function call:
 
 ~~~ {.python}
-print('maximum inflammation for patient 2:', data[2, :].max())
+print('maximum inflammation for patient 2:', numpy.max(data[2, :]))
 ~~~
 ~~~ {.output}
 maximum inflammation for patient 2: 19.0
@@ -452,12 +463,12 @@ operation across an axis:
 ![Operations Across Axes](fig/python-operations-across-axes.svg)
 
 To support this,
-most array methods allow us to specify the axis we want to work on.
+most array functions allow us to specify the axis we want to work on.
 If we ask for the average across axis 0 (rows in our 2D example),
 we get:
 
 ~~~ {.python}
-print(data.mean(axis=0))
+print(numpy.mean(data, axis=0))
 ~~~
 ~~~ {.output}
 [  0.           0.45         1.11666667   1.75         2.43333333   3.15
@@ -474,7 +485,7 @@ As a quick check,
 we can ask this array what its shape is:
 
 ~~~ {.python}
-print(data.mean(axis=0).shape)
+print(numpy.mean(data, axis=0).shape)
 ~~~
 ~~~ {.output}
 (40,)
@@ -485,7 +496,7 @@ so this is the average inflammation per day for all patients.
 If we average across axis 1 (columns in our 2D example), we get:
 
 ~~~ {.python}
-print(data.mean(axis=1))
+print(numpy.mean(data, axis=1))
 ~~~
 ~~~ {.output}
 [ 5.45   5.425  6.1    5.9    5.55   6.225  5.975  6.65   6.625  6.525
@@ -539,7 +550,7 @@ inflammation rises and falls over a 40-day period.
 Let's take a look at the average inflammation over time:
 
 ~~~ {.python}
-ave_inflammation = data.mean(axis=0)
+ave_inflammation = numpy.mean(data, axis=0)
 ave_plot = matplotlib.pyplot.plot(ave_inflammation)
 matplotlib.pyplot.show()
 ~~~
@@ -556,14 +567,14 @@ we expect a sharper rise and slower fall.
 Let's have a look at two other statistics:
 
 ~~~ {.python}
-max_plot = matplotlib.pyplot.plot(data.max(axis=0))
+max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
 matplotlib.pyplot.show()
 ~~~
 
 ![Maximum Value Along The First Axis](fig/01-numpy_75_1.png)
 
 ~~~ {.python}
-min_plot = matplotlib.pyplot.plot(data.min(axis=0))
+min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
 matplotlib.pyplot.show()
 ~~~
 
@@ -579,7 +590,7 @@ You can group similar plots in a single figure using subplots.
 This script below uses a number of new commands. The function `matplotlib.pyplot.figure()`
 creates a space into which we will place all of our plots. The parameter `figsize`
 tells Python how big to make this space. Each subplot is placed into the figure using
-its `add_subplot` method. The `add_subplot` method takes 3 parameters. The first denotes
+its `add_subplot` [method](reference.html#method). The `add_subplot` method takes 3 parameters. The first denotes
 how many total rows of subplots there are, the second parameter refers to the
 total number of subplot columns, and the final parameters denotes which subplot
 your variable is referencing (left-to-right, top-to-bottom). Each subplot is stored in a
@@ -600,13 +611,13 @@ axes2 = fig.add_subplot(1, 3, 2)
 axes3 = fig.add_subplot(1, 3, 3)
 
 axes1.set_ylabel('average')
-axes1.plot(data.mean(axis=0))
+axes1.plot(numpy.mean(data, axis=0))
 
 axes2.set_ylabel('max')
-axes2.plot(data.max(axis=0))
+axes2.plot(numpy.max(data, axis=0))
 
 axes3.set_ylabel('min')
-axes3.plot(data.min(axis=0))
+axes3.plot(numpy.min(data, axis=0))
 
 fig.tight_layout()
 

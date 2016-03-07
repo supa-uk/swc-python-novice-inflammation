@@ -340,8 +340,8 @@ Solutions to exercises:
 >
 > ~~~ {.python}
 > def rescale(input_array):
->     L = input_array.min()
->     H = input_array.max()
+>     L = numpy.min(input_array)
+>     H = numpy.max(input_array)
 >     output_array = (input_array - L) / (H - L)
 >     return output_array
 > ~~~
@@ -361,10 +361,10 @@ Solutions to exercises:
 > that 0 corresponds to the minimum and 1 to the maximum value of the input array.
 >
 > Examples:
-> >>> rescale(np.arange(10.0))
+> >>> rescale(numpy.arange(10.0))
 > array([ 0.        ,  0.11111111,  0.22222222,  0.33333333,  0.44444444,
 >        0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ])
-> >>> rescale(np.linspace(0, 100, 5))
+> >>> rescale(numpy.linspace(0, 100, 5))
 > array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ])
 > '''
 > ~~~
@@ -381,8 +381,8 @@ Solutions to exercises:
 > ~~~ {.python}
 > def rescale(input_array, low_val=0.0, high_val=1.0):
 >     '''rescales input array values to lie between low_val and high_val'''
->     L = input_array.min()
->     H = input_array.max()
+>     L = numpy.min(input_array)
+>     H = numpy.max(input_array)
 >     intermed_array = (input_array - L) / (H - L)
 >     output_array = intermed_array * (high_val - low_val) + low_val
 >     return output_array
@@ -570,7 +570,7 @@ Solutions to exercises:
 > # a possible pre-condition:
 > assert len(input) > 0, 'List length must be non-zero'
 > # a possible post-condition:
-> assert input.min() < average < input.max(), 'Average should be between min and max of input values'
+> assert numpy.min(input) < average < numpy.max(input), 'Average should be between min and max of input values'
 > ~~~
 
 > ## Testing assertions {.challenge}
@@ -747,11 +747,11 @@ Solutions to exercises:
 >     data = numpy.loadtxt(filename, delimiter=',')
 >
 >     if action == '-n':
->         values = data.min(axis=1)
+>         values = numpy.min(data, axis=1)
 >     elif action == '-m':
->         values = data.mean(axis=1)
+>         values = numpy.mean(data, axis=1)
 >     elif action == '-x':
->         values = data.max(axis=1)
+>         values = numpy.max(data, axis=1)
 >
 >     for m in values:
 >         print(m)
@@ -796,11 +796,11 @@ Solutions to exercises:
 >     data = numpy.loadtxt(filename, delimiter=',')
 >
 >     if action == '--min':
->         values = data.min(axis=1)
+>         values = numpy.min(data, axis=1)
 >     elif action == '--mean':
->         values = data.mean(axis=1)
+>         values = numpy.mean(data, axis=1)
 >     elif action == '--max':
->         values = data.max(axis=1)
+>         values = numpy.max(data, axis=1)
 >
 >     for m in values:
 >         print(m)
@@ -840,11 +840,11 @@ Solutions to exercises:
 >     data = numpy.loadtxt(filename, delimiter=',')
 >
 >     if action == '--min':
->         values = data.min(axis=1)
+>         values = numpy.min(data, axis=1)
 >     elif action == '--mean':
->         values = data.mean(axis=1)
+>         values = numpy.mean(data, axis=1)
 >     elif action == '--max':
->         values = data.max(axis=1)
+>         values = numpy.max(data, axis=1)
 >
 >     for m in values:
 >         print(m)
